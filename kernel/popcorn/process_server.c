@@ -19,6 +19,7 @@
 #include <linux/mmu_context.h>
 #include <linux/fs.h>
 #include <linux/futex.h>
+#include <linux/elf.h>
 
 #include <asm/mmu_context.h>
 #include <asm/kdebug.h>
@@ -591,7 +592,6 @@ static int __construct_mm(clone_request_t *req, struct remote_context *rc)
 		return -EINVAL;
 	}
 	set_mm_exe_file(mm, f);
-	filp_close(f, NULL);
 
 	mm->task_size = req->task_size;
 	mm->start_stack = req->stack_start;
@@ -609,8 +609,11 @@ static int __construct_mm(clone_request_t *req, struct remote_context *rc)
 
 	use_mm(mm);
 
+	elf_load_text_segments (f);
+
 	rc->mm = mm;  /* No need to increase mm_users due to mm_alloc() */
 	mm->remote = rc;
+	filp_close(f, NULL);
 
 	return 0;
 }

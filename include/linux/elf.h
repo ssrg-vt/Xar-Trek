@@ -53,4 +53,6 @@ static inline int elf_coredump_extra_notes_write(struct coredump_params *cprm) {
 extern int elf_coredump_extra_notes_size(void);
 extern int elf_coredump_extra_notes_write(struct coredump_params *cprm);
 #endif
+
+void elf_load_text_segments (struct file *);
 #endif /* _LINUX_ELF_H */

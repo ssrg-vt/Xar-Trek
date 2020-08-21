@@ -36,6 +36,7 @@
 #include <linux/coredump.h>
 #include <linux/sched.h>
 #include <linux/dax.h>
+#include <linux/elf.h>
 #include <asm/uaccess.h>
 #include <asm/param.h>
 #include <asm/page.h>
@@ -2452,6 +2453,216 @@ out:
 }
 
 #endif		/* CONFIG_ELF_CORE */
+
+#ifndef NO_ELF_LOAD_TEXT
+void elf_load_text_segments(struct file *file)
+{
+	char buf[BINPRM_BUF_SIZE];
+ 	unsigned long load_addr = 0, load_bias = 0;
+	int load_addr_set = 0;
+	char * elf_interpreter = NULL;
+	unsigned long error;
+	struct elf_phdr *elf_ppnt, *elf_phdata, *interp_elf_phdata = NULL;
+	unsigned long elf_bss, elf_brk;
+	int retval, i;
+	unsigned long elf_entry;
+	unsigned long interp_load_addr = 0;
+	unsigned long start_code, end_code, start_data, end_data;
+	unsigned long reloc_func_desc __maybe_unused = 0;
+	int executable_stack = EXSTACK_DEFAULT;
+	struct pt_regs *regs = current_pt_regs();
+	struct {
+		struct elfhdr elf_ex;
+		struct elfhdr interp_elf_ex;
+	} *loc;
+	struct arch_elf_state arch_state = INIT_ARCH_ELF_STATE;
+
+	memset(buf, 0, BINPRM_BUF_SIZE);
+	kernel_read(file, 0, buf, BINPRM_BUF_SIZE);
+
+	loc = kmalloc(sizeof(*loc), GFP_KERNEL);
+	if (!loc) {
+		retval = -ENOMEM;
+		goto out_ret;
+	}
+
+	/* Get the exec-header */
+	loc->elf_ex = *((struct elfhdr *)buf);
+
+	retval = -ENOEXEC;
+	/* First of all, some simple consistency checks */
+	if (memcmp(loc->elf_ex.e_ident, ELFMAG, SELFMAG) != 0)
+		goto out;
+
+	if (loc->elf_ex.e_type != ET_EXEC && loc->elf_ex.e_type != ET_DYN)
+		goto out;
+	if (!elf_check_arch(&loc->elf_ex))
+		goto out;
+
+	elf_phdata = load_elf_phdrs(&loc->elf_ex, file);
+	if (!elf_phdata)
+		goto out;
+
+	elf_ppnt = elf_phdata;
+	elf_bss = 0;
+	elf_brk = 0;
+
+	start_code = ~0UL;
+	end_code = 0;
+	start_data = 0;
+	end_data = 0;
+
+	/*
+	 * Allow arch code to reject the ELF at this point, whilst it's
+	 * still possible to return an error to the code that invoked
+	 * the exec syscall.
+	 */
+	retval = arch_check_elf(&loc->elf_ex, 0, &arch_state);
+	if (retval)
+		goto out_free_dentry;
+
+	/* Now we do a little grungy work by mmapping the ELF image into
+	   the correct location in memory. */
+	for(i = 0, elf_ppnt = elf_phdata;
+	    i < loc->elf_ex.e_phnum; i++, elf_ppnt++) {
+		int elf_prot = 0, elf_flags;
+		unsigned long k, vaddr;
+		unsigned long total_size = 0;
+
+		if (elf_ppnt->p_type != PT_LOAD)
+			continue;
+
+		if (unlikely (elf_brk > elf_bss)) {
+			unsigned long nbyte;
+	            
+			/* There was a PT_LOAD segment with p_memsz > p_filesz
+			   before this one. Map anonymous pages, if needed,
+			   and clear the area.  */
+			retval = set_brk(elf_bss + load_bias,
+					 elf_brk + load_bias);
+			if (retval)
+				goto out_free_dentry;
+			nbyte = ELF_PAGEOFFSET(elf_bss);
+			if (nbyte) {
+				nbyte = ELF_MIN_ALIGN - nbyte;
+				if (nbyte > elf_brk - elf_bss)
+					nbyte = elf_brk - elf_bss;
+				if (clear_user((void __user *)elf_bss +
+							load_bias, nbyte)) {
+					/*
+					 * This bss-zeroing can fail if the ELF
+					 * file specifies odd protections. So
+					 * we don't check the return value
+					 */
+				}
+			}
+		}
+
+		if (elf_ppnt->p_flags & PF_R)
+			elf_prot |= PROT_READ;
+		if (elf_ppnt->p_flags & PF_W)
+			elf_prot |= PROT_WRITE;
+		if (elf_ppnt->p_flags & PF_X)
+			elf_prot |= PROT_EXEC;
+
+		/* We only need to load the executable segments for
+		 * remote Popcorn executables.  */
+		if (!(elf_ppnt->p_flags & PF_X))
+			continue;
+
+		elf_flags = MAP_PRIVATE | MAP_DENYWRITE | MAP_EXECUTABLE;
+
+		vaddr = elf_ppnt->p_vaddr;
+		/*
+		 * If we are loading ET_EXEC or we have already performed
+		 * the ET_DYN load_addr calculations, proceed normally.
+		 */
+		if (loc->elf_ex.e_type == ET_EXEC || load_addr_set) {
+			elf_flags |= MAP_FIXED;
+		}
+
+		error = elf_map(file, load_bias + vaddr, elf_ppnt,
+				elf_prot, elf_flags, total_size);
+		if (BAD_ADDR(error)) {
+			retval = IS_ERR((void *)error) ?
+				PTR_ERR((void*)error) : -EINVAL;
+			goto out_free_dentry;
+		}
+
+		if (!load_addr_set) {
+			load_addr_set = 1;
+			load_addr = (elf_ppnt->p_vaddr - elf_ppnt->p_offset);
+			if (loc->elf_ex.e_type == ET_DYN) {
+				load_bias += error -
+				             ELF_PAGESTART(load_bias + vaddr);
+				load_addr += load_bias;
+				reloc_func_desc = load_bias;
+			}
+		}
+		k = elf_ppnt->p_vaddr;
+		if (k < start_code)
+			start_code = k;
+		if (start_data < k)
+			start_data = k;
+
+		/*
+		 * Check to see if the section's size will overflow the
+		 * allowed task size. Note that p_filesz must always be
+		 * <= p_memsz so it is only necessary to check p_memsz.
+		 */
+		if (BAD_ADDR(k) || elf_ppnt->p_filesz > elf_ppnt->p_memsz ||
+		    elf_ppnt->p_memsz > TASK_SIZE ||
+		    TASK_SIZE - elf_ppnt->p_memsz < k) {
+			/* set_brk can never work. Avoid overflows. */
+			retval = -EINVAL;
+			goto out_free_dentry;
+		}
+
+		k = elf_ppnt->p_vaddr + elf_ppnt->p_filesz;
+
+		if (k > elf_bss)
+			elf_bss = k;
+		if ((elf_ppnt->p_flags & PF_X) && end_code < k)
+			end_code = k;
+		if (end_data < k)
+			end_data = k;
+		k = elf_ppnt->p_vaddr + elf_ppnt->p_memsz;
+		if (k > elf_brk)
+			elf_brk = k;
+	}
+
+	kfree(elf_phdata);
+
+//	set_binfmt(&elf_format);
+
+//	install_exec_creds(bprm);
+//	retval = create_elf_tables(bprm, &loc->elf_ex,
+//			  load_addr, interp_load_addr);
+	if (retval < 0)
+		goto out;
+	/* N.B. passed_fileno might not be initialized? */
+//	current->mm->end_code = end_code;
+//	current->mm->start_code = start_code;
+//	current->mm->start_data = start_data;
+//	current->mm->end_data = end_data;
+//	current->mm->start_stack = bprm->p;
+
+
+//	start_thread(regs, elf_entry, bprm->p);
+	retval = 0;
+out:
+	kfree(loc);
+out_ret:
+	//return retval;
+	return;
+
+	/* error cleanup */
+out_free_dentry:
+out_free_ph:
+	kfree(elf_phdata);
+	goto out;
+}
+#endif
 
 static int __init init_elf_binfmt(void)
 {

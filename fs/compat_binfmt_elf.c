@@ -141,6 +141,9 @@ static void cputime_to_compat_timeval(const cputime_t cputime,
 #define init_elf_binfmt		init_compat_elf_binfmt
 #define exit_elf_binfmt		exit_compat_elf_binfmt
 
+/* Only define elf_load_text_segments once */
+#define NO_ELF_LOAD_TEXT
+
 /*
  * We share all the actual code with the native (64-bit) version.
  */

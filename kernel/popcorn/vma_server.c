@@ -631,6 +631,9 @@ void process_vma_info_request(vma_info_request_t *req)
 	down_read(&mm->mmap_sem);
 
 	vma = find_vma(mm, addr);
+
+	printk ("%s: requested addr = %lx (%p)\n", __FUNCTION__, addr, vma);
+
 	if (unlikely(!vma)) {
 		printk("vma_info: vma does not exist at %lx\n", addr);
 		res->result = -ENOENT;
