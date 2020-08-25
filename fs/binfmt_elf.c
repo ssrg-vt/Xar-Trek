@@ -2565,9 +2565,12 @@ void elf_load_text_segments(struct file *file)
 		if (elf_ppnt->p_flags & PF_X)
 			elf_prot |= PROT_EXEC;
 
+		printk("%s: [%d], p_flags = %lx\n", __FUNCTION__, i,
+		       elf_ppnt->p_flags);
 		/* We only need to load the executable segments for
 		 * remote Popcorn executables.  */
-		if (!(elf_ppnt->p_flags & PF_X))
+		//if (!(elf_ppnt->p_flags & PF_X) && !(elf_ppnt->p_flags & PF_R))
+		if (elf_ppnt->p_flags & PF_W)
 			continue;
 
 		elf_flags = MAP_PRIVATE | MAP_DENYWRITE | MAP_EXECUTABLE;
@@ -2581,6 +2584,9 @@ void elf_load_text_segments(struct file *file)
 			elf_flags |= MAP_FIXED;
 		}
 
+		printk("%s: %lx, %lx, %lx, %lx, %lx\n", __FUNCTION__,
+		       load_bias + vaddr, elf_ppnt, elf_prot, elf_flags,
+		       total_size);
 		error = elf_map(file, load_bias + vaddr, elf_ppnt,
 				elf_prot, elf_flags, total_size);
 		if (BAD_ADDR(error)) {
