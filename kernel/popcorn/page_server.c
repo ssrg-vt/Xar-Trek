@@ -1881,6 +1881,9 @@ int page_server_handle_pte_fault(
 	 */
 	if (pte_none(pte_val)) {
 		/* Can we handle the fault locally? */
+		printk("%s: start = %lx, end = %lx, flags = %lx\n",
+		       __FUNCTION__, vma->vm_start, vma->vm_end, vma->vm_flags);
+		printk("%s: exec = %lx\n", __FUNCTION__, vma->vm_flags & VM_EXEC);
 		if (vma->vm_flags & VM_EXEC) {
 			PGPRINTK("  [%d] VM_EXEC. continue\n", current->pid);
 			ret = VM_FAULT_CONTINUE;

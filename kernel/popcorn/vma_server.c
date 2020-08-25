@@ -60,6 +60,8 @@ static unsigned long map_difference(struct mm_struct *mm, struct file *file,
 	/**
 	 * Go through ALL VMAs, looking for overlapping with this space.
 	 */
+	printk("\n%s: start = %lx, end = %lx\n", __FUNCTION__, start, end);
+	printk("%s: prot = %lx, flags = %lx, pgoff = %lx\n", __FUNCTION__, prot, flags, pgoff);
 	VSPRINTK("  [%d] map+ %lx %lx\n", current->pid, start, end);
 	for (vma = current->mm->mmap; start < end; vma = vma->vm_next) {
 		/*
@@ -651,10 +653,14 @@ void process_vma_info_request(vma_info_request_t *req)
 good:
 	res->vm_start = vma->vm_start;
 	res->vm_end = vma->vm_end;
-	res->vm_flags = vma->vm_flags;
+	 // Disable VM_EXEC because all of the text semgents have been
+	 // pre-loaded by the remote.
+	//res->vm_flags = vma->vm_flags;
+	//get_file_path(vma->vm_file, res->vm_file_path, sizeof(res->vm_file_path));
 	res->vm_pgoff = vma->vm_pgoff;
-
-	get_file_path(vma->vm_file, res->vm_file_path, sizeof(res->vm_file_path));
+	res->vm_flags = vma->vm_flags & (~VM_EXEC);
+	res->vm_file_path[0] = '\0';
+	
 	res->result = 0;
 
 out_up:
@@ -709,7 +715,7 @@ static struct vma_info *__alloc_vma_info_request(struct task_struct *tsk, unsign
 static int __update_vma(struct task_struct *tsk, vma_info_response_t *res)
 {
 	struct mm_struct *mm = tsk->mm;
-	struct vm_area_struct *vma;
+	struct vm_area_struct *vma, *vma_new;
 	unsigned long prot;
 	unsigned flags = MAP_FIXED;
 	struct file *f = NULL;
@@ -766,6 +772,14 @@ static int __update_vma(struct task_struct *tsk, vma_info_response_t *res)
 
 	err = map_difference(mm, f, res->vm_start, res->vm_end,
 				prot, flags, res->vm_pgoff);
+
+	vma_new = find_vma(mm, addr);
+	if (vma_new)
+		printk("%s: new -- [%lx,%lx]; flags = %lx (%lx)\n",
+		       __FUNCTION__, vma_new->vm_start, vma_new->vm_end, vma_new->vm_flags, flags);
+////	else
+//		printk("%s: did not create new vma\n", __FUNCTION__);
+
 
 	if (f) filp_close(f, NULL);
 

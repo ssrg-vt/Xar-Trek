@@ -21,6 +21,8 @@
 #include <linux/futex.h>
 #include <linux/elf.h>
 
+#include <uapi/linux/personality.h>
+
 #include <asm/mmu_context.h>
 #include <asm/kdebug.h>
 #include <asm/uaccess.h>
@@ -328,9 +330,15 @@ static int __exit_remote_task(struct task_struct *tsk)
 int process_server_task_exit(struct task_struct *tsk)
 {
 	WARN_ON(tsk != current);
+	struct pt_regs *regs = current_pt_regs();
 
 	if (!distributed_process(tsk)) return -ESRCH;
 
+#ifdef __x86_64__
+	PSPRINTK("%s: IP = %lx\n", __FUNCTION__, regs->ip);
+#else
+	PSPRINTK("%s: PC = %lx\n", __FUNCTION__, regs->pc);
+#endif
 	PSPRINTK("EXITED [%d] %s%s / 0x%x\n", tsk->pid,
 			tsk->at_remote ? "remote" : "local",
 			tsk->is_worker ? " worker": "",
@@ -702,7 +710,9 @@ static int remote_worker_main(void *data)
 	current->flags &= ~PF_RANDOMIZE;	/* Disable ASLR for now*/
 	current->flags &= ~PF_KTHREAD;	/* Demote to a user thread */
 
-	current->personality = req->personality;
+	// READ_IMPLIES_EXEC marks read-only pages as exec, and
+	// inhibits page migration.
+	current->personality = req->personality & (~READ_IMPLIES_EXEC);
 	current->is_worker = true;
 	current->at_remote = true;
 	current->origin_nid = PCN_KMSG_FROM_NID(req);
