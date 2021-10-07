@@ -1,7 +1,7 @@
 # Xar-Trek
 Xar-Trek Middleware'21
 
-1) Install Popcorn Kernel on x86 and ARM:  
+1) Install Popcorn Kernel on x86 (mir4) and ARM (leg):   
 (Internal repo: https://popcorn.rasec.tech/popcorn-kernel.git "rasec/shared-libraries-4.4")  
 Public repo:  
 ~$ git clone https://github.com/ssrg-vt/Xar-Trek.git (main branch)  
