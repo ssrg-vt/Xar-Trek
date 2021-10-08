@@ -6,10 +6,10 @@ Xar-Trek Middleware'21
 Public repo:  
 ~$ git clone https://github.com/ssrg-vt/Xar-Trek.git (main branch)  
 ~$ mkdir rasec  
-~$ mv popcorn-kernel/ ~/rasec/linux-x86  
-~$ cd ~/rasec/linux-x86/  
-mir4：～$ cp ~/rasec/linux-x86/kernel/popcorn/configs/config-x86_64-mir .config (Only do this on mir4)  
-leg：～$ cp /rasec/linux-x86/kernel/popcorn/configs/config-arm64-cavium .config (Only do tihs on leg)  
+~$ mv Xar-Trek/ ~/rasec/popcorn-kernel  
+~$ cd ~/rasec/popcorn-kernel/  
+mir4：～$ cp ~/rasec/popcorn-kernel/kernel/popcorn/configs/config-x86_64-mir .config (Only do this on mir4)  
+leg：～$ cp /rasec/popcorn-kernel/kernel/popcorn/configs/config-arm64-cavium .config (Only do tihs on leg)  
 ~$ make menuconfig (save and exit)  
 ~$ make -j32  
 ~$ make modules -j32  
