@@ -13,7 +13,6 @@ leg：～$ cp /rasec/popcorn-kernel/kernel/popcorn/configs/config-arm64-cavium .
 ~$ make menuconfig (save and exit)  
 ~$ make -j32  
 ~$ make modules -j32  
-~$ make modules_install  
 ~$ sudo make modules_install  
 ~$ sudo make install    
 
