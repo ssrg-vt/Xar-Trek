@@ -40,16 +40,19 @@ Linux mir4 4.4.137-xar-trek+ #1...
 2) Install Popcorn compiler. 
 
 Install needed apps:
-$ sudo apt-get install build-essential flex bison subversion cmake zip linux-compiler-gcc-6-x86 gawk
+
+~$ sudo apt-get install build-essential flex bison subversion cmake zip linux-compiler-gcc-6-x86 gawk
 
 Public repo:  
 ~$ git clone https://github.com/ssrg-vt/popcorn-compiler.git  
 branch: xar-trek
+
 ~$ git checkout origin/xar-trek -b xar-trek
 ~$ cd popcorn-compiler
 
 Install compiler at POPCORN PATH:
-$ ./install_compiler.py --install-path <POPCORN PATH> --install-all --threads 8
+
+~$ ./install_compiler.py --install-path \<POPCORN PATH\> --install-all --threads 8
 
 
 3) Generate the libmigrate.a (with the scheduler) and copy it to the popcorn compiler. This is how I'm doing it now:  
