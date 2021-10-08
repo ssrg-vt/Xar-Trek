@@ -17,7 +17,12 @@ save and exit
 ~$ make -j96  
 ~$ make modules -j96  
 ~$ sudo make modules_install  
-~$ sudo make install    
+~$ sudo make install  
+xxxxxxxx
+xxxxx
+xxxxx
+Set grub default number to the number of kernel-xar-trek
+~$ sudo grub-set-default <number>
 
 2) Install Popcorn compiler. Again, I'm using a toolchain from Cesar. I have a file on my desktop that should have everything (toolchain.september.tbz).  
 repo: https://github.com/ssrg-vt/popcorn-compiler.git  
