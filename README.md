@@ -12,7 +12,7 @@ mir4：～$ cp ~/rasec/popcorn-kernel/kernel/popcorn/configs/config-x86_64-mir .
 leg：～$ cp /rasec/popcorn-kernel/kernel/popcorn/configs/config-arm64-cavium .config **(Only do tihs on leg)**  
 ~$ make menuconfig (change kernel name to xar-trek)  
 General setup  --->
-(**-xar-trek**) Local version - append to kernel release  
+(** -xar-trek) Local version - append to kernel release  
 save and exit  
 ~$ make -j96  
 ~$ make modules -j96  
