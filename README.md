@@ -45,8 +45,10 @@ Public repo:
 ~$ git clone https://github.com/ssrg-vt/popcorn-compiler.git  
 branch: xar-trek
 
-~$ git checkout origin/xar-trek -b xar-trek
 ~$ cd popcorn-compiler
+
+~$ git checkout origin/xar-trek -b xar-trek
+
 
 Install compiler at POPCORN PATH:
 
