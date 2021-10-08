@@ -8,6 +8,7 @@ Public repo:
 ~$ mkdir rasec  
 ~$ mv Xar-Trek/ ~/rasec/popcorn-kernel  
 ~$ cd ~/rasec/popcorn-kernel/  
+Use our machine's configuration.  
 mir4：～$ cp ~/rasec/popcorn-kernel/kernel/popcorn/configs/config-x86_64-mir .config **(Only do this on mir4) ** 
 leg：～$ cp /rasec/popcorn-kernel/kernel/popcorn/configs/config-arm64-cavium .config **(Only do tihs on leg)**  
 ~$ make menuconfig (change kernel name to xar-trek)  
@@ -22,17 +23,12 @@ Found linux image: /boot/vmlinuz-4.19.60-popcorn+ >> #0
 Found initrd image: /boot/initrd.img-4.19.60-popcorn+  
 Found linux image: /boot/vmlinuz-4.9.0-11-amd64 >> #1  
 Found initrd image: /boot/initrd.img-4.9.0-11-amd64  
-Found linux image: /boot/vmlinuz-4.4.137-pop-hype-karim+ >> #2  
-Found initrd image: /boot/initrd.img-4.4.137-pop-hype-karim+  
-Found linux image: /boot/vmlinuz-4.4.137-pop-hype-karim+.old >> #3  
-Found initrd image: /boot/initrd.img-4.4.137-pop-hype-karim+  
-Found linux image: /boot/vmlinuz-4.4.137-popcorn-xar-trek+ >> **#4**  
-Found initrd image: /boot/initrd.img-4.4.137-popcorn-xar-trek+  
-...  
+Found linux image: /boot/vmlinuz-4.4.137-xar-trek+ >> #2  
+Found initrd image: /boot/initrd.img-4.4.137-xar-trek+  
   
 Set grub default number to the number of kernel-xar-trek  
 ~$ sudo grub-set-default ($number)  
-In our case, the ($number) should be 4.  
+In our case, the ($number) should be 2.  
 Reboot.  
 $ uname -a (check if you are on -xar-trek kernel)  
 Linux mir4 4.4.137-xar-trek+ #1...  
