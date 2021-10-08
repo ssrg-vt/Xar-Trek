@@ -31,8 +31,8 @@ Found initrd image: /boot/initrd.img-4.4.137-popcorn-xar-trek+
 ...  
   
 Set grub default number to the number of kernel-xar-trek  
-~$ sudo grub-set-default <number>  
-In our case, the <number> should be 5.  
+~$ sudo grub-set-default ($number)  
+In our case, the ($number) should be 5.  
 Reboot.  
 $ uname -a (check if you are on -xar-trek kernel)  
   
