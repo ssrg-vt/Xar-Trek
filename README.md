@@ -13,18 +13,20 @@ mir4：～$ cp ~/rasec/popcorn-kernel/kernel/popcorn/configs/config-x86_64-mir .
 leg：～$ cp /rasec/popcorn-kernel/kernel/popcorn/configs/config-arm64-cavium .config **(Only do tihs on leg)**  
 ~$ make menuconfig (change kernel name to xar-trek)  
 General setup  --->  
-(**-xar-trek**) Local version - append to kernel release  
+(-xar-trek) Local version - append to kernel release  
 save and exit  
 ~$ make -j96  
 ~$ make modules -j96  
 ~$ sudo make modules_install  
 ~$ sudo make install  
+...  
 Found linux image: /boot/vmlinuz-4.19.60-popcorn+ >> #0  
 Found initrd image: /boot/initrd.img-4.19.60-popcorn+  
 Found linux image: /boot/vmlinuz-4.9.0-11-amd64 >> #1  
 Found initrd image: /boot/initrd.img-4.9.0-11-amd64  
 Found linux image: /boot/vmlinuz-4.4.137-xar-trek+ >> #2  
 Found initrd image: /boot/initrd.img-4.4.137-xar-trek+  
+...  
   
 Set grub default number to the number of kernel-xar-trek  
 ~$ sudo grub-set-default ($number)  
