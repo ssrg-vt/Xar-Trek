@@ -28,7 +28,7 @@ Found initrd image: /boot/initrd.img-4.4.137-xar-trek+
   
 Set grub default number to the number of kernel-xar-trek  
 ~$ sudo grub-set-default ($number)  
-In our case, the ($number) should be 2.  
+In our X86 case, the ($number) should be 2.  
 Reboot.  
 $ uname -a (check if you are on -xar-trek kernel)  
 Linux mir4 4.4.137-xar-trek+ #1...  
