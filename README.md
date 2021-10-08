@@ -35,6 +35,7 @@ Set grub default number to the number of kernel-xar-trek
 In our case, the ($number) should be 5.  
 Reboot.  
 $ uname -a (check if you are on -xar-trek kernel)  
+Linux mir4 4.4.137-xar-trek+ #1...  
   
 2) Install Popcorn compiler. Again, I'm using a toolchain from Cesar. I have a file on my desktop that should have everything (toolchain.september.tbz).  
 repo: https://github.com/ssrg-vt/popcorn-compiler.git  
