@@ -23,7 +23,9 @@ xxxxx
 xxxxx  
 Set grub default number to the number of kernel-xar-trek  
 ~$ sudo grub-set-default <number>  
-
+reboot  
+$ uname -a (check if you are on -xar-trek kernel)  
+  
 2) Install Popcorn compiler. Again, I'm using a toolchain from Cesar. I have a file on my desktop that should have everything (toolchain.september.tbz).  
 repo: https://github.com/ssrg-vt/popcorn-compiler.git  
 branch: xar-trek  
