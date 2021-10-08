@@ -18,12 +18,22 @@ save and exit
 ~$ make modules -j96  
 ~$ sudo make modules_install  
 ~$ sudo make install  
-xxxxxxxx  
-xxxxx  
-xxxxx  
+Found linux image: /boot/vmlinuz-4.19.60-popcorn+  
+Found initrd image: /boot/initrd.img-4.19.60-popcorn+  
+Found linux image: /boot/vmlinuz-4.9.0-11-amd64  
+Found initrd image: /boot/initrd.img-4.9.0-11-amd64  
+Found linux image: /boot/vmlinuz-4.4.137-pop-hype-karim+  
+Found initrd image: /boot/initrd.img-4.4.137-pop-hype-karim+  
+Found linux image: /boot/vmlinuz-4.4.137-pop-hype-karim+.old  
+Found initrd image: /boot/initrd.img-4.4.137-pop-hype-karim+  
+Found linux image: /boot/vmlinuz-4.4.137-popcorn-xar-trek+  
+Found initrd image: /boot/initrd.img-4.4.137-popcorn-xar-trek+  
+...  
+  
 Set grub default number to the number of kernel-xar-trek  
 ~$ sudo grub-set-default <number>  
-reboot  
+In our case, the <number> should be 5.  
+Reboot.  
 $ uname -a (check if you are on -xar-trek kernel)  
   
 2) Install Popcorn compiler. Again, I'm using a toolchain from Cesar. I have a file on my desktop that should have everything (toolchain.september.tbz).  
