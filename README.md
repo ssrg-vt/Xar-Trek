@@ -38,6 +38,7 @@ $ uname -a (check if you are on -xar-trek kernel)
 Linux mir4 4.4.137-xar-trek+ #1...  
   
 2) Install Popcorn compiler. 
+
 Install needed apps:
 $ sudo apt-get install build-essential flex bison subversion cmake zip linux-compiler-gcc-6-x86 gawk
 
