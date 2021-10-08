@@ -8,7 +8,6 @@ Public repo:
 ~$ mkdir rasec  
 ~$ mv popcorn-kernel/ ~/rasec/linux-x86  
 ~$ cd ~/rasec/linux-x86/  
-~$ git checkout origin/rasec/shared-libraries-4.4  
 mir4：～$ cp ~/rasec/linux-x86/kernel/popcorn/configs/config-x86_64-mir .config (Only do this on mir4)  
 leg：～$ cp /rasec/linux-x86/kernel/popcorn/configs/config-arm64-cavium .config (Only do tihs on leg)  
 ~$ make menuconfig (save and exit)  
