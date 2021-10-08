@@ -55,14 +55,19 @@ Install compiler at POPCORN PATH:
 ~$ ./install_compiler.py --install-path \<POPCORN PATH\> --install-all --threads 8
 
 
-3) Generate the libmigrate.a (with the scheduler) and copy it to the popcorn compiler. This is how I'm doing it now:  
-vi ~/rasec/popcorn/popcorn-compiler/lib/migration/src/migrate_sched.c  
+3) Generate the libmigrate.a (with the scheduler) and copy it to the popcorn compiler.
+
+cd ${HOME}/popcorn-compiler/lib/migration  
+
+vi /src/migrate_sched.c  
 
 #define POPCORN_X86 "192.168.0.72" /* TODO - change it according to your setup */  
 #define POPCORN_ARM "192.168.0.185" /* TODO - change it according to your setup */  
 
-cd ~/rasec/popcorn/popcorn-compiler/lib/migration  
-make POPCORN=${HOME}/rasec/popcorn/toolchain  
+sudo make POPCORN=${HOME}/pop_tool
+
+
+TO DO:
 cp /home/edshor/rasec/popcorn/popcorn-compiler/lib/migration/build/aarch64/libmigrate.a /home/edshor/pop_tool/aarch64/lib  
 cp /home/edshor/rasec/popcorn/popcorn-compiler/lib/migration/build/x86_64/libmigrate.a /home/edshor/pop_tool/x86_64/lib  
 
