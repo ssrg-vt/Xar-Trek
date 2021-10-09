@@ -91,13 +91,13 @@ dmesg|grep popcorn
  popcorn:    1 joined, aarch64  
  popcorn: Ready on TCP/IP  
 
-ARM
+ARM  
 dmesg|grep popcorn  
- popcorn: Loading node configuration...
- popcorn:   0: 10.1.10.14
- popcorn: * 1: 10.1.1.51
- popcorn: Ready on TCP/IP
- popcorn:    0 joined, x86_64
+ popcorn: Loading node configuration...  
+ popcorn:   0: 10.1.10.14  
+ popcorn: * 1: 10.1.1.51  
+ popcorn: Ready on TCP/IP  
+ popcorn:    0 joined, x86_64  
 
 
 
