@@ -64,7 +64,7 @@ vi /src/migrate_sched.c
 #define POPCORN_X86 "10.1.10.14" /* TODO - change it according to your setup */  
 #define POPCORN_ARM "10.1.1.51" /* TODO - change it according to your setup */  
 
-sudo make POPCORN = ~/pop_tool
+sudo make POPCORN=~/pop_tool
 
 
 TO DO:
