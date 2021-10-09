@@ -70,7 +70,7 @@ cp build/aarch64/libmigrate.a ~/pop_tool/aarch64/lib/
 cp build/x86_64/libmigrate.a ~/pop_tool/x86_64/lib/  
  
 
-4) Compile the Kernel Objects and load them **(repeat for each machine, x86 and ARM)**.
+4) Compile the Kernel Objects **(repeat for each machine, x86 and ARM)**.
 
 cd ~/rasec/popcorn-kernel/  
 vi msg_layer/config.h  
@@ -101,19 +101,19 @@ dmesg|grep popcorn
 
 
 
-5) Compile the applications:  
+6) Compile the applications:  
 Copy the file "libARMOpenCL.a"  to the same folder as Makefile.  
 make 
 I'm also attaching one Makefile as a reference.  
 
-6) Compile the scheduler server  
+7) Compile the scheduler server  
 cd ~/Pop_Scheduler/popcorn-scheduler/  
 vi popcorn_sched_server.c  
 #define POPCORN_X86 "10.1.10.14" /* TODO - change it according to your setup */  
 #define POPCORN_ARM "10.1.1.51" /* TODO - change it according to your setup */  
 gcc -O3 -Wall -I./ ./popcorn_sched_server.c ./mytimer.c -lpthread -o pop_server  
 
-7) Copy the binaries to the same folders on x86 and ARM  
+8) Copy the binaries to the same folders on x86 and ARM  
 
 
 ====
