@@ -9,7 +9,7 @@ Public repo:
 ~$ mv Xar-Trek/ ~/rasec/popcorn-kernel  
 ~$ cd ~/rasec/popcorn-kernel/  
 Use our machine's configuration.  
-mir4：～$ cp ~/rasec/popcorn-kernel/kernel/popcorn/configs/config-x86_64-mir .config **(Only do this on mir4) **  
+mir4：～$ cp ~/rasec/popcorn-kernel/kernel/popcorn/configs/config-x86_64-mir .config **(Only do this on mir4)**  
 leg：～$ cp ~/rasec/popcorn-kernel/kernel/popcorn/configs/config-arm64-cavium .config **(Only do this on leg)**  
 ~$ make menuconfig (change kernel name to xar-trek)  
 General setup  --->  
@@ -35,7 +35,7 @@ Reboot.
 $ uname -a (check if you are on -xar-trek kernel)  
 Linux mir4 4.4.137-xar-trek+ #1...  
   
-2) Install Popcorn compiler (Only on x86)  
+2) Install Popcorn compiler **(Only on x86)**  
 
 Install needed apps:
 
