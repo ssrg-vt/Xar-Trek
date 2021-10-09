@@ -35,7 +35,7 @@ Reboot.
 $ uname -a (check if you are on -xar-trek kernel)  
 Linux mir4 4.4.137-xar-trek+ #1...  
   
-2) Install Popcorn compiler. 
+2) Install Popcorn compiler (Only on x86)  
 
 Install needed apps:
 
