@@ -9,8 +9,8 @@ Public repo:
 ~$ mv Xar-Trek/ ~/rasec/popcorn-kernel  
 ~$ cd ~/rasec/popcorn-kernel/  
 Use our machine's configuration.  
-mir4：～$ cp ~/rasec/popcorn-kernel/kernel/popcorn/configs/config-x86_64-mir .config **(Only do this on mir4) ** 
-leg：～$ cp /rasec/popcorn-kernel/kernel/popcorn/configs/config-arm64-cavium .config **(Only do tihs on leg)**  
+mir4：～$ cp ~/rasec/popcorn-kernel/kernel/popcorn/configs/config-x86_64-mir .config **(Only do this on mir4) **  
+leg：～$ cp /rasec/popcorn-kernel/kernel/popcorn/configs/config-arm64-cavium .config **(Only do this on leg)**  
 ~$ make menuconfig (change kernel name to xar-trek)  
 General setup  --->  
 (-xar-trek) Local version - append to kernel release  
