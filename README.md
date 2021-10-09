@@ -82,8 +82,8 @@ make -C  msg_layer
 
 5) Load the Kernel Objects **(repeat for each machine, x86 and ARM)**.  
 sudo insmod msg_layer/msg_socket.ko  
-Verify if the machines are connected:
-x86
+Verify if the machines are connected:  
+x86  
 dmesg|grep popcorn  
  popcorn: Loading node configuration...  
  popcorn: * 0: 10.1.10.14  
