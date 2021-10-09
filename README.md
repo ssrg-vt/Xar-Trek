@@ -66,22 +66,40 @@ vi /src/migrate_sched.c
 
 sudo make POPCORN=~/pop_tool
 
+cp build/aarch64/libmigrate.a ~/pop_tool/aarch64/lib/  
+cp build/x86_64/libmigrate.a ~/pop_tool/x86_64/lib/  
+ 
 
-TO DO:
-cp ~/rasec/popcorn/popcorn-compiler/lib/migration/build/aarch64/libmigrate.a /home/edshor/pop_tool/aarch64/lib  
-cp ~/rasec/popcorn/popcorn-compiler/lib/migration/build/x86_64/libmigrate.a /home/edshor/pop_tool/x86_64/lib  
+4) Compile the Kernel Objects and load them **(repeat for each machine, x86 and ARM)**.
 
-I have separated the scheduler from the file "migrate.c". I'm attaching the last version of it to this e-mail.  
-
-4) Compile the Kernel Object and load it, for x86 and ARM:  
-cd ~/rasec/linux-{x86,arm}  
+cd ~/rasec/popcorn-kernel/  
 vi msg_layer/config.h  
 
 /* Node 0 */ "10.1.10.14",  
 /* Node 1 */ "10.1.1.51",  
 
 make -C  msg_layer  
+
+5) Load the Kernel Objects **(repeat for each machine, x86 and ARM)**.  
 sudo insmod msg_layer/msg_socket.ko  
+Verify if the machines are connected:
+x86
+dmesg|grep popcorn  
+ popcorn: Loading node configuration...  
+ popcorn: * 0: 10.1.10.14  
+ popcorn:   1: 10.1.1.51  
+ popcorn:    1 joined, aarch64  
+ popcorn: Ready on TCP/IP  
+
+ARM
+dmesg|grep popcorn  
+ popcorn: Loading node configuration...
+ popcorn:   0: 10.1.10.14
+ popcorn: * 1: 10.1.1.51
+ popcorn: Ready on TCP/IP
+ popcorn:    0 joined, x86_64
+
+
 
 5) Compile the applications:  
 Copy the file "libARMOpenCL.a"  to the same folder as Makefile.  
