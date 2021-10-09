@@ -61,8 +61,8 @@ cd ${HOME}/popcorn-compiler/lib/migration
 
 vi /src/migrate_sched.c  
 
-#define POPCORN_X86 "192.168.0.72" /* TODO - change it according to your setup */  
-#define POPCORN_ARM "192.168.0.185" /* TODO - change it according to your setup */  
+#define POPCORN_X86 "10.1.10.14" /* TODO - change it according to your setup */  
+#define POPCORN_ARM "10.1.1.51" /* TODO - change it according to your setup */  
 
 sudo make POPCORN=${HOME}/pop_tool
 
@@ -77,8 +77,8 @@ I have separated the scheduler from the file "migrate.c". I'm attaching the last
 cd ~/rasec/linux-{x86,arm}  
 vi msg_layer/config.h  
 
-/* Node 0 */ "192.168.0.72",  
-/* Node 1 */ "192.168.0.185",  
+/* Node 0 */ "10.1.10.14",  
+/* Node 1 */ "10.1.1.51",  
 
 make -C  msg_layer  
 sudo insmod msg_layer/msg_socket.ko  
@@ -91,8 +91,8 @@ I'm also attaching one Makefile as a reference.
 6) Compile the scheduler server  
 cd ~/Pop_Scheduler/popcorn-scheduler/  
 vi popcorn_sched_server.c  
-#define POPCORN_X86 "192.168.0.72" /* TODO - change it according to your setup */  
-#define POPCORN_ARM "192.168.0.185" /* TODO - change it according to your setup */  
+#define POPCORN_X86 "10.1.10.14" /* TODO - change it according to your setup */  
+#define POPCORN_ARM "10.1.1.51" /* TODO - change it according to your setup */  
 gcc -O3 -Wall -I./ ./popcorn_sched_server.c ./mytimer.c -lpthread -o pop_server  
 
 7) Copy the binaries to the same folders on x86 and ARM  
