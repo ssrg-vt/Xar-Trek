@@ -1,7 +1,29 @@
 # Xar-Trek
-Xar-Trek Middleware'21
 
-1) Install Popcorn Kernel on x86 (mir4) and ARM (leg):   
+Xar-Trek is a compiler and run-time framework which enables execution migration of application functions from heterogeneous-ISA server host CPUs to FPGAs at run-time.  
+
+The framework includes:  
+1)Xar-Trek's compiler to generate multi-ISA binaries that include FPGA implementations for a select set of application functions with very little programmer involvement;  
+2)Xar-Trek's run-time to provide a scheduler infrastructure that monitors server workloads and migrates functions across heterogeneous-ISA CPUs and the FPGA.   
+
+The installation of Xar-Trek assumes that two servers will be used to run the applications. The first one, an x86 server, must have installed the Popcorn Kernel, the Popcorn Compiler, Xilinx Vitis, Xilinx Run Time (XRT), and Xilinx Alveo U50 card deployment platform. The second one, an ARM server, must have installed the Popcorn Kernel.  
+
+The following steps will guide you through thhe installation process. After installing all the components of Xar-Trek, the folder "examples" contain detailed instructions to use Xar-Trek with a set of applications.  
+
+=
+x86 Server Instalation 
+-- 
+
+These are the components of Xar-Trek that must be installed on the x86 server:  
+-- Popcorn Kernel 4.4.137 (shared libraries 4.4 branch)  
+-- Popcorn Compiler (Xar-Trek branch)  
+-- Xilinx Vitis 2020.2
+-- Xilinx Runtime (XRT) version 2.6.655  
+-- Xilinx U50 deployment platform "xilinx_u50_gen3x16_xdma_201920_3"  
+
+The folowing steps will guide you through the installation processs.  
+
+1) Install Popcorn Kernel on x86 (MIR4 machine at AISB building):   
 (Internal repo: https://popcorn.rasec.tech/popcorn-kernel.git "rasec/shared-libraries-4.4")  
 Public repo:  
 ~$ git clone https://github.com/ssrg-vt/Xar-Trek.git (main branch)  
@@ -54,23 +76,71 @@ Install compiler at POPCORN PATH:
 
 ~$ ./install_compiler.py --install-path \<POPCORN PATH\> --install-all --threads 8
 
+3) Install Xilinx Vitis 2020.2  
 
-3) Generate the libmigrate.a (with the scheduler) and copy it to the popcorn compiler. **(Only on x86)**
 
-cd ~/popcorn-compiler/lib/migration  
+4) Install Xilinx Runtime (XRT) version 2.6.655  
 
-vi /src/migrate_sched.c  
 
-#define POPCORN_X86 "10.1.10.14" /* TODO - change it according to your setup */  
-#define POPCORN_ARM "10.1.1.51" /* TODO - change it according to your setup */  
+5) Install Xilinx U50 deployment platform "xilinx_u50_gen3x16_xdma_201920_3"  
 
-sudo make POPCORN=~/pop_tool
 
-cp build/aarch64/libmigrate.a ~/pop_tool/aarch64/lib/  
-cp build/x86_64/libmigrate.a ~/pop_tool/x86_64/lib/  
- 
 
-4) Compile the Kernel Objects **(repeat for each machine, x86 and ARM)**.
+
+
+=
+ARM Server Instalation
+--
+
+The ARM server must have only the Popcorn Kernel 4.4.137 (shared libraries 4.4 branch) installed in order to use Xar-Trek.
+
+The steps are similar to the ones used on the x86 server:
+
+Install Popcorn Kernel (LEG machine at AISB building):   
+(Internal repo: https://popcorn.rasec.tech/popcorn-kernel.git "rasec/shared-libraries-4.4")  
+Public repo:  
+~$ git clone https://github.com/ssrg-vt/Xar-Trek.git (main branch)  
+~$ mkdir rasec  
+~$ mv Xar-Trek/ ~/rasec/popcorn-kernel  
+~$ cd ~/rasec/popcorn-kernel/  
+Use our machine's configuration.  
+leg：～$ cp ~/rasec/popcorn-kernel/kernel/popcorn/configs/config-arm64-cavium .config **(Only do this on leg)**  
+~$ make menuconfig (change kernel name to xar-trek)  
+General setup  --->  
+(-xar-trek) Local version - append to kernel release  
+save and exit  
+~$ make -j96  
+~$ make modules -j96  
+~$ sudo make modules_install  
+~$ sudo make install  
+...  
+Found linux image: /boot/vmlinuz-4.19.60-popcorn+ >> #0  
+Found initrd image: /boot/initrd.img-4.19.60-popcorn+  
+Found linux image: /boot/vmlinuz-4.9.0-11-amd64 >> #1  
+Found initrd image: /boot/initrd.img-4.9.0-11-amd64  
+Found linux image: /boot/vmlinuz-4.4.137-xar-trek+ >> #2  
+Found initrd image: /boot/initrd.img-4.4.137-xar-trek+  
+...  
+  
+Set grub default number to the number of kernel-xar-trek  
+~$ sudo grub-set-default ($number)  
+In our X86 case, the ($number) should be 2.  
+Reboot.  
+$ uname -a (check if you are on -xar-trek kernel)  
+Linux mir4 4.4.137-xar-trek+ #1...  
+  
+
+
+
+=
+Popcorn Messaging Layer
+--
+
+Popcorn uses a messaging module to communicate between the servers. 
+Both message layer modules contain the servers IPs hardcoded in the source code.
+It is necessary to compile the message layer modules for x86 and ARM and load them on each server.
+
+1) Compile the message layer module **(repeat for each machine, x86 and ARM)**.
 
 cd ~/rasec/popcorn-kernel/  
 vi msg_layer/config.h  
@@ -80,8 +150,9 @@ vi msg_layer/config.h
 
 make -C  msg_layer  
 
-5) Load the Kernel Objects **(repeat for each machine, x86 and ARM)**.  
+2) Load the modules **(repeat for each machine, x86 and ARM)**.  
 sudo insmod msg_layer/msg_socket.ko  
+
 Verify if the machines are connected:  
 x86  
 dmesg|grep popcorn  
@@ -98,6 +169,26 @@ dmesg|grep popcorn
  popcorn: * 1: 10.1.1.51  
  popcorn: Ready on TCP/IP  
  popcorn:    0 joined, x86_64  
+
+
+=
+Xar-Trek Scheduler
+--
+
+3) Generate the libmigrate.a (with the scheduler) and copy it to the popcorn compiler. **(Only on x86)**
+
+cd ~/popcorn-compiler/lib/migration  
+
+vi /src/migrate_sched.c  
+
+#define POPCORN_X86 "10.1.10.14" /* TODO - change it according to your setup */  
+#define POPCORN_ARM "10.1.1.51" /* TODO - change it according to your setup */  
+
+sudo make POPCORN=~/pop_tool
+
+cp build/aarch64/libmigrate.a ~/pop_tool/aarch64/lib/  
+cp build/x86_64/libmigrate.a ~/pop_tool/x86_64/lib/  
+ 
 
 
 
