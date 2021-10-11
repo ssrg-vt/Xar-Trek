@@ -3,12 +3,12 @@
 Xar-Trek is a compiler and run-time framework which enables execution migration of application functions from heterogeneous-ISA server host CPUs to FPGAs at run-time.  
 
 The framework includes:  
-1)Xar-Trek's compiler to generate multi-ISA binaries that include FPGA implementations for a select set of application functions with very little programmer involvement;  
+1)Xar-Trek's compiler to generate multi-ISA binaries and FPGA implementations for a select set of application functions with very little programmer involvement;  
 2)Xar-Trek's run-time to provide a scheduler infrastructure that monitors server workloads and migrates functions across heterogeneous-ISA CPUs and the FPGA.   
 
 The installation of Xar-Trek assumes that two servers will be used to run the applications. The first one, an x86 server, must have installed the Popcorn Kernel, the Popcorn Compiler, Xilinx Vitis, Xilinx Run Time (XRT), and Xilinx Alveo U50 card deployment platform. The second one, an ARM server, must have installed the Popcorn Kernel.  
 
-The following steps will guide you through thhe installation process. After installing all the components of Xar-Trek, the folder "examples" contain detailed instructions to use Xar-Trek with a set of applications.  
+The following steps will guide you through thhe installation process. After installing all the components of Xar-Trek, the folder "examples" contains detailed instructions to use Xar-Trek with a set of applications.  
 
 =
 x86 Server Instalation 
@@ -59,22 +59,19 @@ Linux mir4 4.4.137-xar-trek+ #1...
   
 2) Install Popcorn compiler **(Only on x86)**  
 
-Install needed apps:
-
+Install needed apps:  
 ~$ sudo apt-get install build-essential flex bison subversion cmake zip linux-compiler-gcc-6-x86 gawk
 
 Public repo:  
 ~$ git clone https://github.com/ssrg-vt/popcorn-compiler.git  
 branch: xar-trek
 
-~$ cd popcorn-compiler
+~$ cd popcorn-compiler  
+~$ git checkout origin/xar-trek -b xar-trek  
 
-~$ git checkout origin/xar-trek -b xar-trek
+Install compiler at POPCORN PATH:  
+~$ ./install_compiler.py --install-path \<POPCORN PATH\> --install-all --threads 8  
 
-
-Install compiler at POPCORN PATH:
-
-~$ ./install_compiler.py --install-path \<POPCORN PATH\> --install-all --threads 8
 
 3) Install Xilinx Vitis 2020.2  
 
