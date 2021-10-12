@@ -15,15 +15,51 @@ x86 Server Instalation
 -- 
 
 These are the components of Xar-Trek that must be installed on the x86 server:  
--- Popcorn Kernel 4.4.137 (shared libraries 4.4 branch)  
--- Popcorn Compiler (Xar-Trek branch)  
 -- Xilinx Vitis 2020.2
 -- Xilinx Runtime (XRT) version 2.6.655  
 -- Xilinx U50 deployment platform "xilinx_u50_gen3x16_xdma_201920_3"  
+-- Popcorn Kernel 4.4.137 (shared libraries 4.4 branch)  
+-- Popcorn Compiler (Xar-Trek branch) 
+
 
 The folowing steps will guide you through the installation processs.  
 
-1) Install Popcorn Kernel on x86 (MIR4 machine at AISB building):   
+1) Install Xilinx Vitis 2020.2  
+
+https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/vitis/2020-2.html
+
+
+
+
+2) Install Packages for Alveo U50 board
+
+The packages are available at:
+https://www.xilinx.com/products/boards-and-kits/alveo/u50.html#gettingStarted
+
+Choose 2020.1 --> XDMA --> x86_64 --> Ubuntu --> 18.04
+
+Download and install Xilinx Runtime (XRT) version 2.6.655  
+xrt_202010.2.6.655_18.04-amd64-xrt.deb  
+sudo apt install ./xrt_202010.2.6.655_18.04-amd64-xrt.deb
+
+Download Deployment Target Platform to an empty folder:  
+Xilinx_u50-gen3x16-xdma-201920.3-2784799_18.04_deb.tar.gz  
+Uncompress and install each package:  
+tar xvzf Xilinx_u50-gen3x16-xdma-201920.3-2784799_18.04_deb.tar.gz  
+sudo apt install ./xilinx-cmc-u50-1.0.17-2784148_18.04.deb  
+sudo apt install ./xilinx-sc-fw-u50-5.0.27-2.e289be9_18.04.deb  
+sudo apt install ./xilinx-u50-gen3x16-xdma-201920.3-2784799_18.04.deb
+
+Download and install Development Target Platform  
+xilinx-u50-gen3x16-xdma-dev-201920.3-2784799_18.04.deb  
+sudo apt install ./xilinx-u50-gen3x16-xdma-dev-201920.3-2784799_18.04.deb  
+
+
++-For more detailed instruction, see User Guide 1370:
+https://www.xilinx.com/support/documentation/boards_and_kits/accelerator-cards/1_7/ug1370-u50-installation.pdf
+
+
+3) Install Popcorn Kernel on x86 (MIR4 machine at AISB building):   
 (Internal repo: https://popcorn.rasec.tech/popcorn-kernel.git "rasec/shared-libraries-4.4")  
 Public repo:  
 ~$ git clone https://github.com/ssrg-vt/Xar-Trek.git (main branch)  
@@ -56,7 +92,7 @@ Reboot.
 $ uname -a (check if you are on -xar-trek kernel)  
 Linux mir4 4.4.137-xar-trek+ #1...  
   
-2) Install Popcorn compiler **(Only on x86)**  
+4) Install Popcorn compiler **(Only on x86)**  
 
 Install needed apps:  
 ~$ sudo apt-get install build-essential flex bison subversion cmake zip linux-compiler-gcc-6-x86 gawk
@@ -70,42 +106,6 @@ branch: xar-trek
 
 Install compiler at POPCORN PATH:  
 ~$ ./install_compiler.py --install-path \<POPCORN PATH\> --install-all --threads 8  
-
-
-3) Install Xilinx Vitis 2020.2  
-
-https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/vitis/2020-2.html
-
-
-
-
-4) Install Packages for Alveo U50 board
-
-The packages are available at:
-https://www.xilinx.com/products/boards-and-kits/alveo/u50.html#gettingStarted
-
-Choose 2020.1 --> XDMA --> x86_64 --> Ubuntu --> 18.04
-
-Download and install Xilinx Runtime (XRT) version 2.6.655  
-xrt_202010.2.6.655_18.04-amd64-xrt.deb  
-sudo apt install ./xrt_202010.2.6.655_18.04-amd64-xrt.deb
-
-Download Deployment Target Platform to an empty folder:  
-Xilinx_u50-gen3x16-xdma-201920.3-2784799_18.04_deb.tar.gz  
-Uncompress and install each package:  
-tar xvzf Xilinx_u50-gen3x16-xdma-201920.3-2784799_18.04_deb.tar.gz  
-sudo apt install ./xilinx-cmc-u50-1.0.17-2784148_18.04.deb  
-sudo apt install ./xilinx-sc-fw-u50-5.0.27-2.e289be9_18.04.deb  
-sudo apt install ./xilinx-u50-gen3x16-xdma-201920.3-2784799_18.04.deb
-
-Download and install Development Target Platform  
-xilinx-u50-gen3x16-xdma-dev-201920.3-2784799_18.04.deb  
-sudo apt install ./xilinx-u50-gen3x16-xdma-dev-201920.3-2784799_18.04.deb  
-
-
-+-For more detailed instruction, see User Guide 1370:
-https://www.xilinx.com/support/documentation/boards_and_kits/accelerator-cards/1_7/ug1370-u50-installation.pdf
-
 
 
 
