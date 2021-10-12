@@ -44,17 +44,17 @@ save and exit
 ~$ sudo make modules_install  
 ~$ sudo make install  
 ...  
-Found linux image: /boot/vmlinuz-4.19.60-popcorn+ >> #0  
-Found initrd image: /boot/initrd.img-4.19.60-popcorn+  
-Found linux image: /boot/vmlinuz-4.9.0-11-amd64 >> #1  
-Found initrd image: /boot/initrd.img-4.9.0-11-amd64  
-Found linux image: /boot/vmlinuz-4.4.137-xar-trek+ >> #2  
+Found linux image: /boot/vmlinuz-4.15.0-159-generic >> #0  
+Found initrd image: /boot/initrd.img-4.15.0-159-generic  
+Found linux image: /boot/vmlinuz-4.4.137-xar-trek+ >> #1  
+Found initrd image: /boot/initrd.img-4.4.137-xar-trek+  
+Found linux image: /boot/vmlinuz-4.4.137-xar-trek+.old >> #2  
 Found initrd image: /boot/initrd.img-4.4.137-xar-trek+  
 ...  
   
 Set grub default number to the number of kernel-xar-trek  
 ~$ sudo grub-set-default ($number)  
-In our X86 case, the ($number) should be 2.  
+In our X86 case, the ($number) should be 1.  
 Reboot.  
 $ uname -a (check if you are on -xar-trek kernel)  
 Linux mir4 4.4.137-xar-trek+ #1...  
