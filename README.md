@@ -15,7 +15,7 @@ x86 Server Instalation
 -- 
 
 These are the components of Xar-Trek that must be installed on the x86 server:  
--- Xilinx Vitis 2020.2
+-- Xilinx Vitis 2020.2  
 -- Xilinx Runtime (XRT) version 2.6.655  
 -- Xilinx U50 deployment platform "xilinx_u50_gen3x16_xdma_201920_3"  
 -- Popcorn Kernel 4.4.137 (shared libraries 4.4 branch)  
