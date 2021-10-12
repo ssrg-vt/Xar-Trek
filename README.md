@@ -34,7 +34,7 @@ Public repo:
 ~$ mv Xar-Trek/ ~/rasec/popcorn-kernel  
 ~$ cd ~/rasec/popcorn-kernel/  
 Use our machine's configuration.  
-mir4：～$ cp ~/rasec/popcorn-kernel/kernel/popcorn/configs/config-x86_64-mir .config **(Only do this on mir4)**  
+mir4：～$ cp ~/rasec/popcorn-kernel/kernel/popcorn/configs/config-x86_64-mir-ubuntu18 .config **(Only do this on mir4)**  
 ~$ make menuconfig (change kernel name to xar-trek)  
 General setup  --->  
 (-xar-trek) Local version - append to kernel release  
