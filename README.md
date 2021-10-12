@@ -63,6 +63,7 @@ Linux mir4 4.4.137-xar-trek+ #1...
 
 Install needed apps:  
 ~$ sudo apt install build-essential flex bison subversion cmake zip gawk  
+~$ sudo apt install texinfo  
 ~$ sudo apt install gcc-aarch64-linux-gnu  
 ~$ sudo apt install linux-compiler-gcc-6-x86  #(debian9)  
 ~$ sudo apt install g++-6-x86-64-linux-gnux32  #(ubuntu18)  
