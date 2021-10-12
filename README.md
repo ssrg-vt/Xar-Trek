@@ -209,8 +209,8 @@ cd ~/popcorn-compiler/lib/migration
 
 vi /src/migrate_sched.c  
 
-#define POPCORN_X86 "10.1.10.14" /* TODO - change it according to your setup */  
-#define POPCORN_ARM "10.1.1.51" /* TODO - change it according to your setup */  
+#define POPCORN_X86 "10.1.10.14" /* change it according to your setup */  
+#define POPCORN_ARM "10.1.1.51" /*  change it according to your setup */  
 
 sudo make POPCORN=~/pop_tool
 
@@ -236,17 +236,22 @@ vi popcorn_sched_server.c
 
 
 2) Compile the scheduler server  
-gcc -O3 -Wall -I./ ./popcorn_sched_server.c ./mytimer.c -lpthread -o pop_sch_server  
+gcc -O3 -Wall -I./ ./xar-trek_sch_server.c ./mytimer.c -lpthread -o xar-trek-sch_server
 
 3) Start the scheduler server  
 
-It shows at the beginning the available hardware kernels on the XCLBIN file
+It shows at the beginning the available hardware kernels on the XCLBIN file:  
 
+******************** Xar-Trek Scheduler Server ****************  
+Available Hardware Kernels:  
+KNL_HW_DigitRec_sw  
+KNL_HW_Digit_500_Rec_sw  
+KNL_HW_face_640_detect_sw  
+KNL_HW_face_detect_sw  
+KNL_Mod_CG_A  
 
+Xar-Trek Scheduler Server: waiting for connections...  
 
-
-
-8) Copy the binaries to the same folders on x86 and ARM  
 
 
 
