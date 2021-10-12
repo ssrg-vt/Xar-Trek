@@ -62,7 +62,10 @@ Linux mir4 4.4.137-xar-trek+ #1...
 2) Install Popcorn compiler **(Only on x86)**  
 
 Install needed apps:  
-~$ sudo apt-get install build-essential flex bison subversion cmake zip linux-compiler-gcc-6-x86 gawk
+~$ sudo apt install build-essential flex bison subversion cmake zip gawk  
+~$ sudo apt install gcc-aarch64-linux-gnu  
+~$ sudo apt install linux-compiler-gcc-6-x86  #(debian9)  
+~$ sudo apt install g++-6-x86-64-linux-gnux32  #(ubuntu18)  
 
 Public repo:  
 ~$ git clone https://github.com/ssrg-vt/popcorn-compiler.git  
@@ -72,7 +75,7 @@ branch: xar-trek
 ~$ git checkout origin/xar-trek -b xar-trek  
 
 Install compiler at POPCORN PATH:  
-~$ ./install_compiler.py --install-path \<POPCORN PATH\> --install-all --threads 8  
+~$ ./install_compiler.py --install-path \<POPCORN PATH\> --install-all --threads 32  
 
 
 
