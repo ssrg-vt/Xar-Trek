@@ -75,12 +75,37 @@ Install compiler at POPCORN PATH:
 
 3) Install Xilinx Vitis 2020.2  
 
+https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/vitis/2020-2.html
 
-4) Install Xilinx Runtime (XRT) version 2.6.655  
 
 
-5) Install Xilinx U50 deployment platform "xilinx_u50_gen3x16_xdma_201920_3"  
 
+4) Install Packages for Alveo U50 board
+
+The packages are available at:
+https://www.xilinx.com/products/boards-and-kits/alveo/u50.html#gettingStarted
+
+Choose 2020.1 --> XDMA --> x86_64 --> Ubuntu --> 18.04
+
+Download and install Xilinx Runtime (XRT) version 2.6.655  
+xrt_202010.2.6.655_18.04-amd64-xrt.deb  
+sudo apt install ./xrt_202010.2.6.655_18.04-amd64-xrt.deb
+
+Download Deployment Target Platform to an empty folder:  
+Xilinx_u50-gen3x16-xdma-201920.3-2784799_18.04_deb.tar.gz  
+Uncompress and install each package:  
+tar xvzf Xilinx_u50-gen3x16-xdma-201920.3-2784799_18.04_deb.tar.gz  
+sudo apt install ./xilinx-cmc-u50-1.0.17-2784148_18.04.deb  
+sudo apt install ./xilinx-sc-fw-u50-5.0.27-2.e289be9_18.04.deb  
+sudo apt install ./xilinx-u50-gen3x16-xdma-201920.3-2784799_18.04.deb
+
+Download and install Development Target Platform  
+xilinx-u50-gen3x16-xdma-dev-201920.3-2784799_18.04.deb  
+sudo apt install ./xilinx-u50-gen3x16-xdma-dev-201920.3-2784799_18.04.deb  
+
+
++-For more detailed instruction, see User Guide 1370:
+https://www.xilinx.com/support/documentation/boards_and_kits/accelerator-cards/1_7/ug1370-u50-installation.pdf
 
 
 
