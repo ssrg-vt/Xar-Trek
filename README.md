@@ -257,7 +257,18 @@ KNL_Mod_CG_A
 Xar-Trek Scheduler Server: waiting for connections...  
 
 
+=
+Remote hardware set up (upon request)
+--
 
+A complete hardware set up can be accessed remotely, and consists of:
+a) Dell 7920 server (Xeon Bronze 3104 CPU, 1.7GHz, 6 cores, 64GB)
+b) Cavium ThunderX server (ARM CPU, 2GHz, 96 cores, 128GB)
+c) Xilinx Alveo U50 card
 
+The remote access is available upon request. Please, send an e-mail to edsonh@vt.edu explaining why you need to use our machines and we'll do our best to grant the access.
 
+=
+***********************************************************
+--
 * Copyright Systems Software Research Group at Virginia Tech, 2021.
