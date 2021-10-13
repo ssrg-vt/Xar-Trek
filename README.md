@@ -211,7 +211,7 @@ This steps must be applied to te x86 server only.
 
 cd ~/popcorn-compiler/lib/migration  
 
-vi /src/migrate_sched.c  
+vi src/migrate_sched.c  
 
 #define POPCORN_X86 "10.1.10.14" /* change it according to your setup */  
 #define POPCORN_ARM "10.1.1.51" /*  change it according to your setup */  
